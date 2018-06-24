@@ -1,33 +1,16 @@
 'use strict'
 
 module.exports = function (cuk) {
-  const { _ } = cuk.lib
-  const EasyXml = cuk.pkg.util.lib.EasyXml
+  const { _, helper } = cuk.lib
+  const Parser = cuk.pkg.util.lib.xml.j2xParser
 
-  const traverse = function (o) {
-    for (var i in o) {
-      if (!!o[i] && typeof(o[i]) === "object") {
-        /*
-        if (_.isArray(o[i])) {
-          _.each(o[i], v => {
-            if (_.has(v, 'id')) {
-              v._id = v.id
-              delete v.id
-            }
-          })
-        }
-        */
-        traverse(o[i])
-      }
-    }
-  }
-
-  return function(obj, manifest) {
-    traverse(obj)
-    const serializer = new EasyXml({
-      manifest: manifest
-    })
-
-    return serializer.render(obj)
+  return (obj, opts, declaration = true) => {
+    const defOpts = cuk.pkg.util.cfg.common.xml.parserOpts
+    opts = helper('core:merge')(defOpts, opts)
+    const parser = new Parser(opts)
+    let data = parser.parse(obj)
+    if (declaration)
+      data = '<?xml version="1.0" encoding="UTF-8"?>\n' + data
+    return data
   }
 }

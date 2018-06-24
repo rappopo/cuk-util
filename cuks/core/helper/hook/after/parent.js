@@ -3,7 +3,7 @@
 module.exports = function(cuk) {
   const { helper, _, path, fs } = cuk.lib
 
-  return () => {
+  const patchCoreLoadConfig = () => {
     let oFn = cuk.pkg.core.cuks.core.helper.loadConfig
     let fn = (dir, file) => {
       return new Promise((resv, rejc) => {
@@ -33,7 +33,21 @@ module.exports = function(cuk) {
       })
     }
     cuk.pkg.core.cuks.core.helper.loadConfig = fn
-    return 'Monkey patch core:loadConfig'
+  }
+
+  const patchRestWrite = () => {
+    let fn = (obj, ctx) => {
+      const pkg = cuk.pkg.util
+      ctx.type = pkg.cfg.common[ctx.params.ext].contentType || 'application/json; charset=utf-8'
+      ctx.body = helper(`util:${ctx.params.ext}Write`)(obj)
+    }
+    cuk.pkg.rest.cuks.core.helper.write = fn
+  }
+
+  return () => {
+    patchCoreLoadConfig()
+    patchRestWrite()
+    return 'Monkey patch core:loadConfig & rest:write'
 
   }
 }

@@ -6,7 +6,7 @@ module.exports = function(cuk) {
     id: 'util',
     level: 3,
     lib: {
-      EasyXml: require('easyxml'),
+      xml: require('fast-xml-parser'),
       yaml: require('js-yaml')
     }
   })
