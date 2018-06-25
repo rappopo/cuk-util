@@ -7,7 +7,8 @@ module.exports = function(cuk) {
     level: 3,
     lib: {
       xml: require('fast-xml-parser'),
-      yaml: require('js-yaml')
+      yaml: require('js-yaml'),
+      coBody: require('co-body')
     }
   })
 }
