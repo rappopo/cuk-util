@@ -4,16 +4,24 @@ module.exports = function(cuk) {
 
   const { _, helper } = cuk.lib
   const { text: parseText } = cuk.pkg.util.lib.coBody
-//  const koaBody = cuk.pkg.http.lib.koaBody
 
 
   return () => {
     let oFn = helper('http:middleware')('http:bodyParser')
     cuk.pkg.http.cuks.http.middleware.bodyParser = (options) => {
       return async function (ctx, next) {
-        if (ctx.is('*/xml', '+xml')) {
+        const format = {
+          xml: ctx.is('*/xml', '+xml'),
+          yml: ctx.is('*/yaml', '*/yml', 'text/plain')
+        }
+        if (format.xml || format.yml) {
           const text = await parseText(ctx)
-          const data = helper('util:xmlRead')(text)
+          let data
+          if (format.xml)
+            data = helper('util:xmlRead')(text)
+          else if (format.yml)
+            data = helper('util:ymlRead')(text)
+          if (!data) return next()
           ctx.req.body = data
           ctx.request.body = data
           return next()
