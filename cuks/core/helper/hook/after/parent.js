@@ -38,16 +38,19 @@ module.exports = function(cuk) {
   const patchRestWrite = () => {
     let fn = (obj, ctx) => {
       const pkg = cuk.pkg.util
-      ctx.type = pkg.cfg.common[ctx.params.ext].contentType || 'application/json; charset=utf-8'
-      ctx.body = helper(`util:${ctx.params.ext}Write`)(obj)
+      if (ctx.params && ctx.params.ext) {
+        ctx.type = pkg.cfg.common[ctx.params.ext].contentType || 'application/json; charset=utf-8'
+        ctx.body = helper(`util:${ctx.params.ext}Write`)(obj)
+      }
     }
     cuk.pkg.rest.cuks.core.helper.write = fn
   }
 
   return () => {
     patchCoreLoadConfig()
-    patchRestWrite()
-    return 'Monkey patch core:loadConfig & rest:write'
+    if (cuk.pkg.rest)
+      patchRestWrite()
+    return 'Patching core:loadConfig & rest:write'
 
   }
 }
