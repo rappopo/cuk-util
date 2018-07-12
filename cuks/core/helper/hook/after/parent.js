@@ -1,10 +1,10 @@
 'use strict'
 
 module.exports = function(cuk) {
-  const { helper, _, path, fs } = cuk.lib
+  const { helper, _, path, fs } = cuk.pkg.core.lib
 
-  const patchCoreLoadConfig = () => {
-    let oFn = cuk.pkg.core.cuks.core.helper.loadConfig
+  const patchConfig = () => {
+    let oFn = cuk.pkg.core.cuks.core.helper.configLoad
     let fn = (dir, file) => {
       return new Promise((resv, rejc) => {
         oFn(dir, file)
@@ -32,7 +32,11 @@ module.exports = function(cuk) {
         .catch(rejc)
       })
     }
-    cuk.pkg.core.cuks.core.helper.loadConfig = fn
+    cuk.pkg.core.cuks.core.helper.configLoad = fn
+    let oExt = cuk.pkg.core.cuks.core.helper.configFileExt()
+    cuk.pkg.core.cuks.core.helper.configFileExt = () => {
+      return _.concat(oExt, ['.yml', '.xml'])
+    }
   }
 
   const patchRestWrite = () => {
@@ -47,10 +51,10 @@ module.exports = function(cuk) {
   }
 
   return () => {
-    patchCoreLoadConfig()
+    patchConfig()
     if (cuk.pkg.rest)
       patchRestWrite()
-    return 'Patching core:loadConfig & rest:write'
+    return 'Patching core:configLoad, core:configFileExt & rest:write'
 
   }
 }

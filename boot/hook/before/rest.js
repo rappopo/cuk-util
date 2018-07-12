@@ -1,5 +1,5 @@
 module.exports = function(cuk) {
-  const { _ } = cuk.lib
+  const { _ } = cuk.pkg.core.lib
 
   return new Promise((resolve, reject) => {
     if (!cuk.pkg.rest) return resolve(true)

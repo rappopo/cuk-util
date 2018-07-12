@@ -2,7 +2,7 @@
 
 module.exports = function(cuk) {
 
-  const { _, helper } = cuk.lib
+  const { _, helper } = cuk.pkg.core.lib
   const { text: parseText } = cuk.pkg.util.lib.coBody
 
 
@@ -29,7 +29,7 @@ module.exports = function(cuk) {
         await oFn(options)(ctx, next)
       }
     }
-    return 'Monkey patch http:bodyParser'
+    return 'Patching http:bodyParser'
   }
 
 }

@@ -1,7 +1,7 @@
 'use strict'
 
 module.exports = function (cuk) {
-  const { _, helper } = cuk.lib
+  const { _, helper } = cuk.pkg.core.lib
   const Parser = cuk.pkg.util.lib.xml.j2xParser
 
   return (obj, opts, declaration = true) => {
