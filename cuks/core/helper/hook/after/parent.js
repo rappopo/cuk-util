@@ -42,9 +42,20 @@ module.exports = function(cuk) {
   const patchRestWrite = () => {
     let fn = (obj, ctx) => {
       const pkg = cuk.pkg.util
-      if (ctx.params && ctx.params.ext) {
+      let valid = !!_.get(ctx, 'params.ext')
+      if (!_.get(ctx, 'params.ext')) {
+        const ext = path.extname(ctx.path).substr(1)
+        if (cuk.pkg.rest.cfg.common.supportedFormats.indexOf(ext) > -1) {
+          valid = true
+          _.set(ctx, 'params.ext', ext)
+        }
+      }
+      if (valid) {
         ctx.type = pkg.cfg.common[ctx.params.ext].contentType || 'application/json; charset=utf-8'
         ctx.body = helper(`util:${ctx.params.ext}Write`)(obj)
+      } else {
+        ctx.type = 'text/html'
+        ctx.body = JSON.stringify(obj)
       }
     }
     cuk.pkg.rest.cuks.core.helper.write = fn

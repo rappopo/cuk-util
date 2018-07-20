@@ -12,6 +12,7 @@ module.exports = function(cuk) {
         },
         xml: {
           contentType: 'application/xml; text/xml; charset=utf-8',
+          wrapperDoc: 'document',
           parserOpts: {
             attributeNamePrefix: '@_',
             attrNodeName: '@',
