@@ -1,6 +1,6 @@
 'use strict'
 
-module.exports = function(cuk) {
+module.exports = function (cuk) {
 
   const { _, helper } = cuk.pkg.core.lib
   const { text: parseText } = cuk.pkg.util.lib.coBody

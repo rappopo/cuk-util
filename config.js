@@ -2,7 +2,7 @@
 
 const he = require('he')
 
-module.exports = function(cuk) {
+module.exports = function (cuk) {
 
   return new Promise((resolve, reject) => {
     resolve({

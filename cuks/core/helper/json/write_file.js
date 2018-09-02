@@ -1,6 +1,6 @@
 'use strict'
 
-module.exports = function(cuk) {
+module.exports = function (cuk) {
   const { fs, helper } = cuk.pkg.core.lib
 
   return (file, obj, opts = {}, overWrite = true) => {

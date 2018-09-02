@@ -1,6 +1,6 @@
 'use strict'
 
-module.exports = function(cuk) {
+module.exports = function (cuk) {
   const { helper, _, path, fs } = cuk.pkg.core.lib
 
   const patchConfig = () => {
@@ -15,7 +15,7 @@ module.exports = function(cuk) {
           if (fs.existsSync(f))
             try {
               nResult = helper('util:ymlReadFile')(f)
-            } catch(e) { throw e }
+            } catch (e) { throw e }
           return Promise.resolve(nResult)
         })
         .then(result => {
@@ -25,11 +25,11 @@ module.exports = function(cuk) {
           if (fs.existsSync(f))
             try {
               nResult = helper('util:xmlReadFile')(f)
-            } catch(e) {}
+            } catch (e) {}
           return Promise.resolve(nResult)
         })
         .then(resv)
-        .catch(rejc)
+        .catch (rejc)
       })
     }
     cuk.pkg.core.cuks.core.helper.configLoad = fn
