@@ -1,6 +1,6 @@
 {
   "name": "@rappopo/cuk-util",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Rappopo CUK Utility Helper",
   "main": "index.js",
   "scripts": {
@@ -8,6 +8,10 @@
   },
   "author": "Ardhi Lukianto <ardhi@lukianto.com>",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rappopo/cuk-util.git"
+  },
   "dependencies": {
     "co-body": "^6.0.0",
     "fast-xml-parser": "^3.11.1",
