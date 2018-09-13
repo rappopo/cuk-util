@@ -1,7 +1,7 @@
 'use strict'
 
 module.exports = function (cuk) {
-  const { _, helper } = cuk.pkg.core.lib
+  const { helper } = cuk.pkg.core.lib
   const yaml = cuk.pkg.util.lib.yaml
 
   return (obj, opts, safe = true) => {

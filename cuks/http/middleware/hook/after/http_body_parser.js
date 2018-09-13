@@ -1,10 +1,8 @@
 'use strict'
 
 module.exports = function (cuk) {
-
-  const { _, helper } = cuk.pkg.core.lib
+  const { helper } = cuk.pkg.core.lib
   const { text: parseText } = cuk.pkg.util.lib.coBody
-
 
   return () => {
     let oFn = helper('http:middleware')('http:bodyParser')
@@ -17,10 +15,8 @@ module.exports = function (cuk) {
         if (format.xml || format.yml) {
           const text = await parseText(ctx)
           let data
-          if (format.xml)
-            data = helper('util:xmlRead')(text)
-          else if (format.yml)
-            data = helper('util:ymlRead')(text)
+          if (format.xml) data = helper('util:xmlRead')(text)
+          else if (format.yml) data = helper('util:ymlRead')(text)
           if (!data) return next()
           ctx.req.body = data
           ctx.request.body = data
@@ -31,5 +27,4 @@ module.exports = function (cuk) {
     }
     return 'Patching http:bodyParser'
   }
-
 }

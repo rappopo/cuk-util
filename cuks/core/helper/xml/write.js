@@ -1,7 +1,7 @@
 'use strict'
 
 module.exports = function (cuk) {
-  const { _, helper } = cuk.pkg.core.lib
+  const { helper } = cuk.pkg.core.lib
   const Parser = cuk.pkg.util.lib.xml.j2xParser
 
   return (obj, opts, declaration = true) => {
@@ -14,8 +14,7 @@ module.exports = function (cuk) {
       obj = o
     }
     let data = parser.parse(obj)
-    if (declaration)
-      data = '<?xml version="1.0" encoding="UTF-8"?>\n' + data
+    if (declaration) data = '<?xml version="1.0" encoding="UTF-8"?>\n' + data
     return data
   }
 }

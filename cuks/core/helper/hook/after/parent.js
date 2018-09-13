@@ -6,30 +6,32 @@ module.exports = function (cuk) {
   const patchConfig = () => {
     let oFn = cuk.pkg.core.cuks.core.helper.configLoad
     let fn = (dir, file) => {
-      return new Promise((resv, rejc) => {
+      return new Promise((resolve, reject) => {
         oFn(dir, file)
-        .then(result => {
-          if (!_.isEmpty(result)) return Promise.resolve(result)
-          let nResult = {},
-            f = path.join(dir, `${file}.yml`)
-          if (fs.existsSync(f))
-            try {
-              nResult = helper('util:ymlReadFile')(f)
-            } catch (e) { throw e }
-          return Promise.resolve(nResult)
-        })
-        .then(result => {
-          if (!_.isEmpty(result)) return Promise.resolve(result)
-          let nResult = {},
-            f = path.join(dir, `${file}.xml`)
-          if (fs.existsSync(f))
-            try {
-              nResult = helper('util:xmlReadFile')(f)
-            } catch (e) {}
-          return Promise.resolve(nResult)
-        })
-        .then(resv)
-        .catch (rejc)
+          .then(result => {
+            if (!_.isEmpty(result)) return Promise.resolve(result)
+            let nResult = {}
+            let f = path.join(dir, `${file}.yml`)
+            if (fs.existsSync(f)) {
+              try {
+                nResult = helper('util:ymlReadFile')(f)
+              } catch (e) { throw e }
+            }
+            return Promise.resolve(nResult)
+          })
+          .then(result => {
+            if (!_.isEmpty(result)) return Promise.resolve(result)
+            let nResult = {}
+            let f = path.join(dir, `${file}.xml`)
+            if (fs.existsSync(f)) {
+              try {
+                nResult = helper('util:xmlReadFile')(f)
+              } catch (e) {}
+            }
+            return Promise.resolve(nResult)
+          })
+          .then(resolve)
+          .catch(reject)
       })
     }
     cuk.pkg.core.cuks.core.helper.configLoad = fn
@@ -63,9 +65,7 @@ module.exports = function (cuk) {
 
   return () => {
     patchConfig()
-    if (cuk.pkg.rest)
-      patchRestWrite()
+    if (cuk.pkg.rest) patchRestWrite()
     return 'Patching core:configLoad, core:configFileExt & rest:write'
-
   }
 }
