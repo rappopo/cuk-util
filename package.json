@@ -1,6 +1,6 @@
 {
   "name": "@rappopo/cuk-util",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Rappopo CUK Utility Helper",
   "main": "index.js",
   "scripts": {

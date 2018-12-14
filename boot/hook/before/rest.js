@@ -3,7 +3,7 @@ module.exports = function (cuk) {
 
   return new Promise((resolve, reject) => {
     if (!cuk.pkg.rest) return resolve(true)
-    let cfg = cuk.pkg.rest.cfg.common.supportedFormats
+    let cfg = cuk.pkg.rest.cfg.supportedFormats
     cfg.push('xml', 'yml')
     cfg = _.uniq(cfg)
     resolve(true)
