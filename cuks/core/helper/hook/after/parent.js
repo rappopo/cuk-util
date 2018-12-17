@@ -47,13 +47,13 @@ module.exports = function (cuk) {
       let valid = !!_.get(ctx, 'params.ext')
       if (!_.get(ctx, 'params.ext')) {
         const ext = path.extname(ctx.path).substr(1)
-        if (cuk.pkg.rest.cfg.common.supportedFormats.indexOf(ext) > -1) {
+        if (cuk.pkg.rest.cfg.supportedFormats.indexOf(ext) > -1) {
           valid = true
           _.set(ctx, 'params.ext', ext)
         }
       }
       if (valid) {
-        ctx.type = pkg.cfg.common[ctx.params.ext].contentType || 'application/json; charset=utf-8'
+        ctx.type = pkg.cfg[ctx.params.ext].contentType || 'application/json; charset=utf-8'
         ctx.body = helper(`util:${ctx.params.ext}Write`)(obj)
       } else {
         ctx.type = 'text/html'
